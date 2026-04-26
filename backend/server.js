@@ -11,15 +11,15 @@ import mentorshipRoutes from "./routes/mentorshipRoutes.js";
 
 const app = express();
 
-
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: "*",
+  credentials: true
+}));
 app.use(express.json());
-
 
 // Connect MongoDB
 connectDB();
-
 
 // Routes
 app.use("/api/auth", authRoutes);
@@ -29,14 +29,12 @@ app.use("/api/messages", messageRoutes);
 app.use("/api/connections", connectionRoutes);
 app.use("/api/mentorship", mentorshipRoutes);
 
-
 // Test Route
 app.get("/", (req, res) => {
   res.send("AlumniHub Backend Running");
 });
 
-
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
